@@ -1,5 +1,8 @@
-import { kv } from '@vercel/kv'
-import { ProposalData } from './types'
+import { Redis } from '@upstash/redis'
+const kv = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+})import { ProposalData } from './types'
 
 export async function saveProposal(proposal: ProposalData): Promise<void> {
   await kv.set(`proposal:${proposal.id}`, JSON.stringify(proposal))
