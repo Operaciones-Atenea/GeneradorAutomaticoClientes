@@ -1,5 +1,6 @@
 import { getProposal } from '@/lib/storage'
 import { notFound } from 'next/navigation'
+import ProposalClient from './ProposalClient'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
