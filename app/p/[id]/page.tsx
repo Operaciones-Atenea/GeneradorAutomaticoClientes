@@ -3,8 +3,9 @@ import { notFound } from 'next/navigation'
 import ProposalClient from './ProposalClient'
 import type { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const proposal = await getProposal(params.id)
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const proposal = await getProposal(id)
   if (!proposal) return { title: 'Propuesta no encontrada' }
   return {
     title: `Propuesta para ${proposal.clientName} — Atenea Growth`,
@@ -12,8 +13,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 }
 
-export default async function ProposalPage({ params }: { params: { id: string } }) {
-  const proposal = await getProposal(params.id)
+export default async function ProposalPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const proposal = await getProposal(id)
   if (!proposal) notFound()
   return <ProposalClient proposal={proposal} />
 }
